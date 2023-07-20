@@ -1,0 +1,58 @@
+# Django project files
+*.pyc
+*.pyo
+__pycache__/
+*.sqlite3
+db.sqlite3
+media
+staticfiles
+
+# Ignore the virtual environment directory (if you use virtualenv)
+venv/
+env/
+
+# Ignore settings that include sensitive information
+weather_app/settings.py
+
+# Ignore local development settings
+local_settings.py
+
+# Ignore log files
+*.log
+
+# Ignore development and debugging files
+*.bak
+*.swp
+.vscode/
+.idea/
+*.pydevproject
+*.pydevworkspace
+*.pyc
+
+# Ignore deployment and server files
+*.pid
+*.lock
+*.log
+*.sock
+
+# Ignore package managers
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ignore database configuration files
+*.db
+*.sqlite
+*.sqlite3
+
+# Ignore macOS specific files
+.DS_Store
+
+# Ignore editor-specific files
+*.sublime-project
+*.sublime-workspace
+
+# Ignore temporary files and directories
+*.tmp
+*.temp
+temp/
+tmp/
