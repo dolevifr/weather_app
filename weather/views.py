@@ -3,6 +3,7 @@ from django.views import View
 import requests
 from .API_KEY import WEATHER_API_KEY
 from .location_api_handler import WeatherAPIWrapper
+from datetime import datetime
 
 cities = ["London", "New-York", "Dubai","Tel Aviv"]
 
@@ -18,7 +19,7 @@ class ForcastInfo(View):
     def get(self, request):
         location = request.GET.get('location')
         response = requests.get(
-            f'https://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={location}&days=2&aqi=no&alerts=no')
+            f'https://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={location}&days=7&aqi=no&alerts=no')
         if response.status_code == 200:
             data = response.json()
         else:

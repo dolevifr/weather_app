@@ -1,5 +1,6 @@
 import requests
 from .API_KEY import WEATHER_API_KEY
+from datetime import datetime
 
 
 
@@ -11,3 +12,10 @@ class WeatherAPIWrapper:
             return response.json()
         else:
             pass
+
+    def get_location_day(self,location):
+
+        response = requests.get(
+            f'https://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={location}&days=2&aqi=no&alerts=no')
+        if response.status_code == 200:
+            epochtime=response.json()
