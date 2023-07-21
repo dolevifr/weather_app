@@ -1,0 +1,12 @@
+
+<section>
+<div class="container">
+        <div class="d-flex flex-wrap gap-5">
+            {% for data in locations_data %}
+                <div class="item">
+                    {% include "weather_location_card.html" %}
+                </div>
+            {% endfor %}
+        </div>
+</div>
+</section>
