@@ -1,5 +1,6 @@
 from django import template
 from datetime import datetime
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
