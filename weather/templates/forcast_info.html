@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load my_tag %}
+
+<!-- start of template -->
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-12 col-xl-10">
+        <div class="card shadow-100 border border-dark text-dark" style="border-radius: 15px;
+               background-color: rgba(255, 255, 255, 0.7);">
+          <div class="card-body p-4">
+            <div class="row text-center">
+              <div class="col-md-9 text-center border-end border-1  border-dark py-4"
+                style="margin-top: -1.5rem; margin-bottom: -1.5rem;">
+                <div class="d-flex justify-content-around mt-3">
+                  <p class="h6">{{ data.location.region }}</p>
+                  <p class="h6">{{ data.location.localtime }}</p>
+                  <p class="h6">{{ data.forecast.forecastday.0.day.condition.text }}</p>
+                </div>
+                <div class="d-flex justify-content-around align-items-center py-5 my-4">
+                  <p class="fw-bold mb-0" style="font-size: 6rem;">{{  data.forecast.forecastday.0.day.avgtemp_c }}°C</p>
+                  <div class="text-start">
+                    <p class="h6 mb-3">min temp:{{ data.forecast.forecastday.0.day.mintemp_c}}°C</p>
+                    <p class="h6 mb-1">max temp:{{ data.forecast.forecastday.0.day.maxtemp_c}}°C</p>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-around align-items-center mb-3">
+                  <div class="flex-column">
+                  </div>
+                      {% for day_data in data.forecast.forecastday %}
+                          <div class="flex-column border" style="border-radius: 10px; padding: .75rem">
+                            <p class="small mb-1">{{ day_data.date_epoch | epoch_to_day }}</p>
+                            <p class="small mb-0"><strong>{{ day_data.day.avgtemp_c }}°C</strong></p>
+                          </div>
+                      {% endfor %}
+                </div>
+              </div>
+              <div class="col-md-3 text-end">
+                    <img src="https://e7.pngegg.com/pngimages/406/844/png-clipart-computer-icons-person-user-spark-icon-people-share-icon.png"width="100" alt="Image" style="background: transparent;">
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<!-- end of template -->
+
+
+{% endblock %}
