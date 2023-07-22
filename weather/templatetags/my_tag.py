@@ -22,20 +22,19 @@ def clothes_to_wear(weather_json_data):
     wind_speed_kph = current["wind_kph"]
     if curr_UV > 4:
         wear_hat = True
-    if curr_temp > 25:
-        return "images/man.png"
+    if curr_temp >= 25:
+            return "images/summer_cap.png" if wear_hat else "images/summer.png"
+    if 20 <= curr_temp < 25 and wind_speed_kph <= 15:
+        return "images/summer_cap.png" if wear_hat else "images/summer.png"
         #short clothes
-    if 20 <= curr_temp < 25 and wind_speed_kph <= 15 and wear_hat:
-        return "images/man.png"
-        #short clothes
-    elif 20 <= curr_temp < 25 and wind_speed_kph > 15 and wear_hat:
-        return "images/man.png"
+    elif 20 <= curr_temp < 25 and wind_speed_kph > 15:
+        return "images/fall_cap.png" if wear_hat else "images/fall.png"
         #long clothes
-    elif 15 < curr_temp < 20 and wear_hat:
-        return "images/man.png"
-        #wear long clothes
+    elif 15 < curr_temp < 20:
+        return "images/fall.png"
     else:
-        return "images/sunny.png"
+        #below 15C degrees
+        return "images/winter.png"
 
 
 
