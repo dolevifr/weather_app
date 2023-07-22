@@ -12,7 +12,7 @@ class IndexPageView(View):
     def get(self, request):
         API_wrapper = WeatherAPIWrapper()
         primary_locations_data = [API_wrapper.get_location_weather_data(city) for city in cities]
-        return render(request, 'index_page.html', {"locations_data": primary_locations_data })
+        return render(request, 'index_page.html', {"locations_data": primary_locations_data})
 
 
 class ForcastInfo(View):
