@@ -13,17 +13,17 @@
             </div>
 
             <div class="d-flex flex-column text-center mt-5 mb-3">
-              <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;">{{data.forecast.forecastday.0.day.avgtemp_c}}°C </h6>
-              <span class="small" style="color: #868B94">{{data.forecast.forecastday.0.day.condition.text}}</span>
+              <h6 class="display-4 mb-0 font-weight-bold avg-tmp" >{{data.forecast.forecastday.0.day.avgtemp_c}}°C </h6>
+              <span class="small cards-wrap" >{{data.forecast.forecastday.0.day.condition.text}}</span>
             </div>
 
             <div class="d-flex align-items-center">
-              <div class="flex-grow-1" style="font-size: 1rem;">
-                <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1"> {{ data.current.wind_kph}} km/h
+              <div class="flex-grow-1" >
+                <div><i class="fas fa-wind fa-fw cards-wrap" ></i> <span class="ms-1"> {{ data.current.wind_kph}} km/h
                   </span></div>
-                <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1"> {{ data.forecast.forecastday.0.day.daily_chance_of_rain }}% rain </span>
+                <div><i class="fas fa-tint fa-fw cards-wrap" ></i> <span class="ms-1"> {{ data.forecast.forecastday.0.day.daily_chance_of_rain }}% rain </span>
                 </div>
-                <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span class="ms-1"> {{data.current.uv }} UV </span>
+                <div><i class="fas fa-sun fa-fw cards-wrap" ></i> <span class="ms-1"> {{data.current.uv }} UV </span>
                 </div>
               </div>
               <div>
