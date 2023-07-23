@@ -1,10 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}    <!-- extends base file, background and navbar -->
+
 {% block content %}
 <section class="p-5 text-center ">
     <div class="d-flex justify-content-center ">
       <div class="text-white">
         <h1 class="mb-1">Weather Service</h1>
         <h4 class="mb-1">Enter location</h4>
+          <!--  the {url 'forecast'} specifies the url where the data should be sent when searching city -->
             <form action="{% url 'forecast' %}" method="GET" class="input-group rounded search-container">
                 <input type="search" class="form-control rounded search-input" placeholder="Search"
                        aria-label="Search" aria-describedby="search-addon"

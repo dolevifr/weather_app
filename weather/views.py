@@ -9,7 +9,6 @@ cities = ["New-York", "Tokyo","Tel Aviv","Dubai"]
 days_of_week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 
-
 class IndexPageView(View):
     def get(self, request):
         API_wrapper = WeatherAPIWrapper()
@@ -27,9 +26,8 @@ class ForcastInfo(View):
             data = response.json()
             curr_day_num = API_wrapper.get_day_of_week_from_epoch(location)
             return render(request, 'forcast_info.html', {'data': data,'curr_day_num': curr_day_num})
-        else:
-            return render(request,'error_page.html')
+        else: #handles error in page not existing places
+            return render(request, 'error_page.html')
 
 
-def page_not_found(request, exception):
-    return render(request, 'error_page.html.html', status=404)
+

@@ -2,6 +2,7 @@
 <section>
 <div class="container">
         <div class="d-flex flex-wrap gap-5">
+    <!-- the loop iterates over a card template and fill each card with a different data based on the location-->
             {% for data in locations_data %}
                 <div class="item">
                     {% include "weather_location_card.html" %}

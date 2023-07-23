@@ -1,13 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}<!-- extends base file, background and navbar -->
 {% block content %}
 {% load my_tag %}
     {% load static %}
-
+<!-- added 404,not found error message to handle cities that does not exist -->
         <div class="error-message">
         <h1>404 - Page Not Found</h1>
         <p>Sorry, the page you are looking for does not exist.</p>
     </div>
-    <head>
-        <link rel="stylesheet" href={% static "styles/error_page.css" %}/>
-    </head>
 {% endblock %}
