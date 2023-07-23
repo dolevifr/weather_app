@@ -8,6 +8,8 @@ from datetime import datetime
 cities = ["New-York", "Tokyo","Tel Aviv","Dubai"]
 days_of_week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
+
+
 class IndexPageView(View):
     def get(self, request):
         API_wrapper = WeatherAPIWrapper()
@@ -24,18 +26,10 @@ class ForcastInfo(View):
         if response.status_code == 200:
             data = response.json()
             curr_day_num = API_wrapper.get_day_of_week_from_epoch(location)
-            first_day_str = days_of_week[curr_day_num]
-            second_day_str = days_of_week[(curr_day_num+1) % 7]
-            third_day_str = days_of_week[(curr_day_num+2) % 7]
-            fourth_day_str = days_of_week[(curr_day_num +3) % 7]
-            fifth_day_str = days_of_week[(curr_day_num+4) % 7]
-            sixth_day_str = days_of_week[(curr_day_num+5) % 7]
-            seventh_day_str = days_of_week[(curr_day_num+6) % 7]
-
+            return render(request, 'forcast_info.html', {'data': data,'curr_day_num': curr_day_num})
         else:
-            pass
-        return render(request, 'forcast_info.html',
-                      {'data': data,'curr_day_num': curr_day_num,
-                                'first_day_str': first_day_str,'second_day_str':second_day_str,'third_day_str':third_day_str
-                                ,'fourth_day_str': fourth_day_str,'fifth_day_str':fifth_day_str,'sixth_day_str':sixth_day_str
-                                ,'seventh_day_str': seventh_day_str})
+            return render(request,'error_page.html')
+
+
+def page_not_found(request, exception):
+    return render(request, 'error_page.html.html', status=404)

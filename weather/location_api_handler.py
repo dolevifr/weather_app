@@ -33,4 +33,3 @@ class WeatherAPIWrapper:
         day_of_week_number = dt_object.weekday()
         return day_of_week_number
 
-
