@@ -30,7 +30,9 @@
                   <div class="flex-column">
                   </div>
                       {% for day_data in data.forecast.forecastday %}
+
                           <div class="flex-column border" style="border-radius: 10px; padding: .75rem">
+                            <i class='{{ day_data|weather_icon|safe }}'></i>
                             <p class="small mb-1">{{ day_data.date_epoch | epoch_to_day }}</p>
                             <p class="small mb-0"><strong>{{ day_data.day.avgtemp_c }}°C</strong></p>
                           </div>
@@ -38,7 +40,7 @@
                 </div>
               </div>
               <div class="col-md-3 text-end">
-                    <img src={% static data|clothes_to_wear %} width="200" height="470">
+                    <img src={% static data|clothes_to_wear %} width="200" height="400">
               </div>
             </div>
           </div>
