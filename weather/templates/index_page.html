@@ -7,12 +7,12 @@
         <h1 class="mb-1">Weather Service</h1>
         <h4 class="mb-1">Enter location</h4>
           <!--  the {url 'forecast'} specifies the url where the data should be sent when searching city -->
-<form action = "" method = "GET">
+<form method = "GET" action={% url "forecast" %}>
     {% csrf_token %}
-    {{ weather_input_form }}
-    <p></p>
-    {{ weather_input_form }}
-    <input type="submit" value="Submit">
+    <p>{{ weather_input_form_must }}</p>
+    <p>  </p>
+    <p>{{ weather_input_form_not_must }}</p>
+    <input type="submit" class="btn btn-secondary" value="Submit">
 </form>
 
       </div>

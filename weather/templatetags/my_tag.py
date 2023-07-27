@@ -54,4 +54,25 @@ def weather_icon(day_data):
         return "fa-solid fa-cloud-sun"
 
 
-
+@register.filter("clothes_to_wear_in_words")
+def clothes_to_wear_in_words(weather_json_data):
+    wear_hat = False
+    current = weather_json_data["current"]
+    curr_temp = current["temp_c"]
+    curr_UV = current["uv"]
+    wind_speed_kph = current["wind_kph"]
+    if curr_UV > 4:
+        wear_hat = True
+    if curr_temp >= 25:
+            return "wear short with hat" if wear_hat else "wear short without hat"
+    if 20 <= curr_temp < 25 and wind_speed_kph <= 15:
+        return "wear short with hat" if wear_hat else "wear short without hat"
+        #short clothes
+    elif 20 <= curr_temp < 25 and wind_speed_kph > 15:
+        return "wear long with hat" if wear_hat else "wear long without hat"
+        #long clothes
+    elif 15 < curr_temp < 20:
+        return "wear long without hat"
+    else:
+        #below 15C degrees
+        return "very cold, wear coat"
