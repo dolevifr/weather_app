@@ -11,9 +11,6 @@ staticfiles
 venv/
 env/
 
-# Ignore settings that include sensitive information
-weather_app/settings.py
-
 # Ignore local development settings
 local_settings.py
 

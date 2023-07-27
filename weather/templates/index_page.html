@@ -7,14 +7,14 @@
         <h1 class="mb-1">Weather Service</h1>
         <h4 class="mb-1">Enter location</h4>
           <!--  the {url 'forecast'} specifies the url where the data should be sent when searching city -->
-            <form action="{% url 'forecast' %}" method="GET" class="input-group rounded search-container">
-                <input type="search" class="form-control rounded search-input" placeholder="Search"
-                       aria-label="Search" aria-describedby="search-addon"
-                       name="location" style="background-color: rgba(255, 255, 255, 0.7);" />
-                <button type="submit" class="input-group-text " id="search-addon";>
-                <i class="fas fa-search"></i>
-                </button>
-            </form>
+<form action = "" method = "GET">
+    {% csrf_token %}
+    {{ weather_input_form }}
+    <p></p>
+    {{ weather_input_form }}
+    <input type="submit" value="Submit">
+</form>
+
       </div>
     </div>
 </section>
