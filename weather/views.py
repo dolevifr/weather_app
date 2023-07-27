@@ -18,7 +18,6 @@ class IndexPageView(View):
                                                    'weather_input_form': InputForm()})
 
 
-
 class ForcastInfo(View):
     def get(self, request):
         API_wrapper = WeatherAPIWrapper()
@@ -31,6 +30,3 @@ class ForcastInfo(View):
                           {'data': data, 'curr_day_num': curr_day_num, 'days_of_week': days_of_week})
         else:  # handles error in page not existing places
             return render(request, 'error_page.html')
-
-
-
