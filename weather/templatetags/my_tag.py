@@ -64,9 +64,9 @@ def clothes_to_wear_in_words(weather_json_data_daily):#forecast.forecastday[inde
     if curr_UV > 4:
         wear_hat = True
     if avg_temp >= 22:
-            return "wear short with hat" if wear_hat else "wear short without hat"
+            return "קצר עם כובע" if wear_hat else "קצר בלי כובע"
     elif 15 < avg_temp < 22:
-        return "wear long without hat" if wear_hat else "wear long without hat"
+        return "ארוך עם כובע" if wear_hat else "ארוך בלי כובע"
     else:
         # below 15C degrees
         return "very cold, wear coat"
@@ -74,20 +74,25 @@ def clothes_to_wear_in_words(weather_json_data_daily):#forecast.forecastday[inde
 
 @register.filter("clothes_to_wear_all_week")
 def clothes_to_wear_all_week(request):
-    string_to_return = "put in suitcase:\n"
+    string_to_return =""
     API_handler = WeatherAPIWrapper()
     location, start_date, end_date = API_handler.extract_data_must(request)
     location_not_must, start_date_not_must, end_date_not_must = API_handler.extract_data_not_must(request)
-    data_response_by_location = API_handler.get_location_weather_data(location).json()
+    data_response_by_location_must = API_handler.get_location_weather_data(location).json()
+    data_response_by_location_not_must = API_handler.get_location_weather_data(location_not_must)
+    data_response_by_location_not_must_json = data_response_by_location_not_must.json()
+    if data_response_by_location_not_must.status_code==200:
+        date_different_not_must = end_date_not_must - start_date_not_must
+        num_days_not_must = date_different_not_must.days + 1
+        forecast_days_not_must = data_response_by_location_not_must_json["forecast"]["forecastday"]
     date_difference_must = end_date - start_date
-    date_different_not_must = end_date_not_must-start_date_not_must
-    num_days_not_must = date_different_not_must.days
-    num_days_must = date_difference_must.days
-    forecast_days = data_response_by_location["forecast"]["forecastday"]
+    num_days_must = date_difference_must.days + 1
+    forecast_days = data_response_by_location_must["forecast"]["forecastday"]
     string_to_return += f"for {location} wear:\n"
     for day in range(num_days_must):
-        string_to_return += clothes_to_wear_in_words(forecast_days[day])+"\n"
-    if location_not_must is not None:
+        string_to_return +=f"יום {day+1}- " + clothes_to_wear_in_words(forecast_days[day]) +"\n"
+    if data_response_by_location_not_must.status_code==200:
+        string_to_return += f"for {location_not_must} wear:\n"
         for day in range(num_days_not_must):
-            string_to_return += clothes_to_wear_in_words(forecast_days[day])+"\n"
+            string_to_return += f"יום {day+num_days_must+1}- " + clothes_to_wear_in_words(forecast_days_not_must[day+num_days_must])+"\n"
     return string_to_return

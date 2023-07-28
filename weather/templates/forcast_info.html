@@ -3,6 +3,7 @@
 {% load my_tag %}
     {% load static %}
 
+
 <section class="vh-100">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -41,7 +42,7 @@
                 </div>
               </div>
               <div class="image col-md-3 text-end">
-                   <p> {{ request | clothes_to_wear_all_week }}</p>
+                   <p> {{ request | clothes_to_wear_all_week |linebreaks  }}</p>
               </div>
             </div>
           </div>
