@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.views import View
-import requests
 from .API_KEY import WEATHER_API_KEY
 from .location_api_handler import WeatherAPIWrapper
 from .forms import InputForm_must, InputForm_not_must

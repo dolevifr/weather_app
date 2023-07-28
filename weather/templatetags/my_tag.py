@@ -2,6 +2,7 @@ from django import template
 from datetime import datetime
 from django.utils.safestring import mark_safe
 register = template.Library()
+from weather.location_api_handler import WeatherAPIWrapper
 
 #the template tags enable me to write functions here and implement them quite simply in the html files
 
@@ -55,24 +56,38 @@ def weather_icon(day_data):
 
 
 @register.filter("clothes_to_wear_in_words")
-def clothes_to_wear_in_words(weather_json_data):
+def clothes_to_wear_in_words(weather_json_data_daily):#forecast.forecastday[index]
     wear_hat = False
-    current = weather_json_data["current"]
-    curr_temp = current["temp_c"]
-    curr_UV = current["uv"]
-    wind_speed_kph = current["wind_kph"]
+    day = weather_json_data_daily["day"]
+    avg_temp = day["avgtemp_c"]
+    curr_UV = day["uv"]
     if curr_UV > 4:
         wear_hat = True
-    if curr_temp >= 25:
+    if avg_temp >= 22:
             return "wear short with hat" if wear_hat else "wear short without hat"
-    if 20 <= curr_temp < 25 and wind_speed_kph <= 15:
-        return "wear short with hat" if wear_hat else "wear short without hat"
-        #short clothes
-    elif 20 <= curr_temp < 25 and wind_speed_kph > 15:
-        return "wear long with hat" if wear_hat else "wear long without hat"
-        #long clothes
-    elif 15 < curr_temp < 20:
-        return "wear long without hat"
+    elif 15 < avg_temp < 22:
+        return "wear long without hat" if wear_hat else "wear long without hat"
     else:
-        #below 15C degrees
+        # below 15C degrees
         return "very cold, wear coat"
+
+
+@register.filter("clothes_to_wear_all_week")
+def clothes_to_wear_all_week(request):
+    string_to_return = "put in suitcase:\n"
+    API_handler = WeatherAPIWrapper()
+    location, start_date, end_date = API_handler.extract_data_must(request)
+    location_not_must, start_date_not_must, end_date_not_must = API_handler.extract_data_not_must(request)
+    data_response_by_location = API_handler.get_location_weather_data(location).json()
+    date_difference_must = end_date - start_date
+    date_different_not_must = end_date_not_must-start_date_not_must
+    num_days_not_must = date_different_not_must.days
+    num_days_must = date_difference_must.days
+    forecast_days = data_response_by_location["forecast"]["forecastday"]
+    string_to_return += f"for {location} wear:\n"
+    for day in range(num_days_must):
+        string_to_return += clothes_to_wear_in_words(forecast_days[day])+"\n"
+    if location_not_must is not None:
+        for day in range(num_days_not_must):
+            string_to_return += clothes_to_wear_in_words(forecast_days[day])+"\n"
+    return string_to_return
