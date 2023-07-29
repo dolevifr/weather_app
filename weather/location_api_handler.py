@@ -29,7 +29,7 @@ class WeatherAPIWrapper:
             end_date_not_must = form.cleaned_data['end_date_not_must']
             return location_not_must, start_date_not_must, end_date_not_must
         else:
-            return None
+            return None,None,None
 
     def extract_data_must(self, request):
         form = InputForm_must(request.GET)
@@ -41,7 +41,7 @@ class WeatherAPIWrapper:
             return location, start_date, end_date
 
         else:
-            return None
+            return None,None,None
 
 
 

@@ -20,8 +20,8 @@ class IndexPageView(View):
 class ForcastInfo(View):
     def get(self, request):
         API_wrapper = WeatherAPIWrapper()
-        #location = request.GET.get('location')
-        location, start_date, end_date= API_wrapper.extract_data_must(request)
+        location = request.GET.get('location')
+        location, start_date, end_date = API_wrapper.extract_data_must(request)
         response = API_wrapper.get_location_weather_data(location)
         location_not_must, start_date_not_must, end_date_not_must = API_wrapper.extract_data_not_must(request)
         if response.status_code == 200:

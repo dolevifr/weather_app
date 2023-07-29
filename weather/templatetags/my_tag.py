@@ -64,35 +64,72 @@ def clothes_to_wear_in_words(weather_json_data_daily):#forecast.forecastday[inde
     if curr_UV > 4:
         wear_hat = True
     if avg_temp >= 22:
-            return "קצר עם כובע" if wear_hat else "קצר בלי כובע"
+            return "short with hat" if wear_hat else "short without hat"
     elif 15 < avg_temp < 22:
-        return "ארוך עם כובע" if wear_hat else "ארוך בלי כובע"
+        return "long with hat" if wear_hat else "long without hat"
     else:
         # below 15C degrees
         return "very cold, wear coat"
+
+def date_translation(date):
+    israeli_form_date=""
+    date =str(date)
+    year, month, day = date.split('-')
+    israeli_form_date= day +"/"+ month
+    return israeli_form_date
+
 
 
 @register.filter("clothes_to_wear_all_week")
 def clothes_to_wear_all_week(request):
     string_to_return =""
     API_handler = WeatherAPIWrapper()
+    # extract from api all the data using the api handler
     location, start_date, end_date = API_handler.extract_data_must(request)
     location_not_must, start_date_not_must, end_date_not_must = API_handler.extract_data_not_must(request)
     data_response_by_location_must = API_handler.get_location_weather_data(location).json()
     data_response_by_location_not_must = API_handler.get_location_weather_data(location_not_must)
     data_response_by_location_not_must_json = data_response_by_location_not_must.json()
-    if data_response_by_location_not_must.status_code==200:
+    if data_response_by_location_not_must.status_code == 200:
         date_different_not_must = end_date_not_must - start_date_not_must
         num_days_not_must = date_different_not_must.days + 1
         forecast_days_not_must = data_response_by_location_not_must_json["forecast"]["forecastday"]
     date_difference_must = end_date - start_date
     num_days_must = date_difference_must.days + 1
     forecast_days = data_response_by_location_must["forecast"]["forecastday"]
-    string_to_return += f"for {location} wear:\n"
+    if end_date > start_date_not_must:
+        string_to_return += "warning: days overlap\n\n"
+    string_to_return += f"{location} from {date_translation(start_date)}\n"
     for day in range(num_days_must):
-        string_to_return +=f"יום {day+1}- " + clothes_to_wear_in_words(forecast_days[day]) +"\n"
-    if data_response_by_location_not_must.status_code==200:
-        string_to_return += f"for {location_not_must} wear:\n"
+        string_to_return += f"day {day+1}- " + clothes_to_wear_in_words(forecast_days[day]) +"\n"
+    if data_response_by_location_not_must.status_code == 200:
+        string_to_return += f"\n{location_not_must} from {date_translation(start_date_not_must)}\n"
         for day in range(num_days_not_must):
-            string_to_return += f"יום {day+num_days_must+1}- " + clothes_to_wear_in_words(forecast_days_not_must[day+num_days_must])+"\n"
+            string_to_return += f"day {day+1}- " + clothes_to_wear_in_words(forecast_days_not_must[day])+"\n"
     return string_to_return
+
+@register.filter("warning_days_over_lap")
+def warning_days_over_lap():
+    pass
+
+
+
+
+@register.filter("location_title_to_wear_must")
+def location_title_to_wear_must(request):
+    string_to_return = ""
+    API_handler = WeatherAPIWrapper()
+    # extract from api all the data using the api handler
+    location, start_date, end_date = API_handler.extract_data_must(request)
+    string_to_return += f"clothes to wear in {location} :\n"
+
+
+@register.filter("location_title_to_wear_not_must")
+def location_title_to_wear_not_must(request):
+    string_to_return = ""
+    API_handler = WeatherAPIWrapper()
+    # extract from api all the data using the api handler
+    location_not_must, start_date_not_must, end_date_not_must = API_handler.extract_data_not_must(request)
+    data_response_by_location_not_must = API_handler.get_location_weather_data(location_not_must)
+    if data_response_by_location_not_must == 200:
+        return f"clothes to wear in {location_not_must}"

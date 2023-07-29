@@ -9,7 +9,7 @@ class InputForm_must(forms.Form):
         today = date.today()
         end_date = today + timedelta(days=6)
         start_date = today
-        self.fields['location'] = forms.CharField(label="*City Location", max_length=30)
+        self.fields['location'] = forms.CharField(label="City Location")
         # Set the DateField widget's attributes to limit the date range
         self.fields['start_date'] = forms.DateField(
             label="Start Date",
@@ -22,15 +22,7 @@ class InputForm_must(forms.Form):
             widget=forms.DateInput(attrs={'type': 'date', 'min': start_date, 'max': end_date})
         )
 
-    def clean(self):
-        cleaned_data = super().clean()
-        start_date = cleaned_data.get('start_date')
-        end_date = cleaned_data.get('end_date')
 
-        if end_date < start_date:
-            raise forms.ValidationError("End date cannot be earlier than the start date.")
-
-        return cleaned_data
 
 
 
