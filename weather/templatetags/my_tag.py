@@ -97,8 +97,6 @@ def clothes_to_wear_all_week(request):
     date_difference_must = end_date - start_date
     num_days_must = date_difference_must.days + 1
     forecast_days = data_response_by_location_must["forecast"]["forecastday"]
-    if end_date > start_date_not_must:
-        string_to_return += "warning: days overlap\n\n"
     string_to_return += f"{location} from {date_translation(start_date)}\n"
     for day in range(num_days_must):
         string_to_return += f"day {day+1}- " + clothes_to_wear_in_words(forecast_days[day]) +"\n"
@@ -109,8 +107,13 @@ def clothes_to_wear_all_week(request):
     return string_to_return
 
 @register.filter("warning_days_over_lap")
-def warning_days_over_lap():
-    pass
+def warning_days_over_lap(request):
+    API_handler = WeatherAPIWrapper()
+    # extract from api all the data using the api handler
+    location, start_date, end_date = API_handler.extract_data_must(request)
+    location_not_must, start_date_not_must, end_date_not_must = API_handler.extract_data_not_must(request)
+    if end_date > start_date_not_must:
+        return "warning: days overlap\n\n"
 
 
 
